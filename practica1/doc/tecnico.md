@@ -22,3 +22,10 @@ para generar un requirement.txt automatico:
 pip freeze > requirements.txt
 
 ```
+
+Ejecutar servidor
+```
+uvicorn main:app --reload
+
+
+```

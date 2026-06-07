@@ -1,3 +1,5 @@
+:- dynamic ciudad/1.
+:- dynamic conexion/3.
 
 % Hechos: ciudades
 ciudad(guatemala).

@@ -1,23 +1,116 @@
 
-% Regla para encontrar una ruta entre dos ciudades
-ruta(Origen, Destino, [Origen, Destino], Distancia) :-
-    conexion(Origen, Destino, Distancia).
+% CONEXION BIDIRECCIONAL
 
-% Regla para encontrar rutas más largas (recursivas)
-ruta(Origen, Destino, [Origen|Ruta], DistanciaTotal) :-
-    conexion(Origen, Intermedio, Distancia),
-    ruta(Intermedio, Destino, Ruta, DistanciaRestante),
-    \+ member(Origen, Ruta), % Evitar ciclos
-    DistanciaTotal is Distancia + DistanciaRestante.
 
-% Regla para calcular la distancia total de una ruta
-distancia_total([_], 0).
-distancia_total([Ciudad1, Ciudad2|Resto], DistanciaTotal) :-
-    conexion(Ciudad1, Ciudad2, Distancia),
-    distancia_total([Ciudad2|Resto], DistanciaRestante),
-    DistanciaTotal is Distancia + DistanciaRestante.
+camino(A, B, D) :-
+    conexion(A, B, D).
 
-% Regla para encontrar la ruta más corta
-ruta_mas_corta(Origen, Destino, RutaCorta, DistanciaCorta) :-
-    setof([Ruta, Distancia], ruta(Origen, Destino, Ruta, Distancia), Rutas),
-    Rutas = [[RutaCorta, DistanciaCorta]|_]. % La primera ruta es la más corta (ordenada por distancia)
+camino(A, B, D) :-
+    conexion(B, A, D).
+
+
+% BUSQUEDA DE RUTAS
+
+
+ruta(Origen, Destino, Ruta, Distancia) :-
+    ruta_aux(
+        Origen,
+        Destino,
+        [Origen],
+        RutaInvertida,
+        0,
+        Distancia
+    ),
+    reverse(RutaInvertida, Ruta).
+
+
+% AUXILIAR RECURSIVO
+
+
+ruta_aux(
+    Destino,
+    Destino,
+    Visitadas,
+    Visitadas,
+    Distancia,
+    Distancia
+).
+
+ruta_aux(
+    Actual,
+    Destino,
+    Visitadas,
+    Ruta,
+    DistanciaActual,
+    DistanciaTotal
+) :-
+
+    camino(
+        Actual,
+        Siguiente,
+        DistanciaTramo
+    ),
+
+    \+ member(
+        Siguiente,
+        Visitadas
+    ),
+
+    NuevaDistancia is
+        DistanciaActual +
+        DistanciaTramo,
+
+    ruta_aux(
+        Siguiente,
+        Destino,
+        [Siguiente|Visitadas],
+        Ruta,
+        NuevaDistancia,
+        DistanciaTotal
+    ).
+
+
+% RUTA MAS CORTA
+
+
+ruta_mas_corta(
+    Origen,
+    Destino,
+    RutaCorta,
+    DistanciaCorta
+) :-
+
+    setof(
+        Distancia-Ruta,
+        ruta(
+            Origen,
+            Destino,
+            Ruta,
+            Distancia
+        ),
+        [
+            DistanciaCorta-RutaCorta
+            | _
+        ]
+    ).
+
+
+% TODAS LAS RUTAS ORDENADAS
+
+
+todas_las_rutas(
+    Origen,
+    Destino,
+    Rutas
+) :-
+
+    setof(
+        Distancia-Ruta,
+        ruta(
+            Origen,
+            Destino,
+            Ruta,
+            Distancia
+        ),
+        Rutas
+    ).

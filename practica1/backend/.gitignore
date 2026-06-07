@@ -1,2 +1,4 @@
 venv
 app/__pycache__
+
+app/adapters/__pycache__
