@@ -68,3 +68,20 @@ async def add_connection(
             status_code=400,
             detail=str(e)
         )
+
+@router.get("/connections")
+async def get_connections():
+
+    try:
+
+        return {
+            "connections":
+            city_service.get_all_connections()
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )

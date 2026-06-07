@@ -264,3 +264,28 @@ class PrologAdapter:
         )
 
         return resultados
+
+    def get_all_connections(self):
+
+        resultados = list(
+            self.prolog.query(
+                "findall([O,D,Dist], conexion(O,D,Dist), Connections)"
+            )
+        )
+
+        if not resultados:
+            return []
+
+        conexiones = []
+
+        raw = resultados[0]["Connections"]
+
+        for conexion in raw:
+
+            conexiones.append({
+                "origen": str(conexion[0]),
+                "destino": str(conexion[1]),
+                "distancia": int(conexion[2])
+            })
+
+        return conexiones

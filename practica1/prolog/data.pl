@@ -34,3 +34,5 @@ conexion(chiquimula, peten, 350).
 conexion(suchitepequez, escuintla, 70).
 ciudad(quiche).
 conexion(guatemala,quiche,300).
+ciudad(sanjuansac).
+conexion(quiche,sanjuansac,500).
