@@ -1,10 +1,22 @@
 
-% Regla para agregar una nueva ciudad
+% AGREGAR CIUDAD
+
+
 agregar_ciudad(Nombre) :-
-    \+ ciudad(Nombre), % Verificar que la ciudad no exista
+    \+ ciudad(Nombre),
     assertz(ciudad(Nombre)).
 
-% Regla para agregar una nueva conexión entre ciudades
+
+% AGREGAR CONEXION
+
+
 agregar_conexion(Origen, Destino, Distancia) :-
-    \+ conexion(Origen, Destino, Distancia), % Verificar que la conexión no exista
+
+    ciudad(Origen),
+    ciudad(Destino),
+
+    Distancia > 0,
+
+    \+ conexion(Origen, Destino, Distancia),
+
     assertz(conexion(Origen, Destino, Distancia)).

@@ -1,121 +1,266 @@
 from pyswip import Prolog
+from pathlib import Path
 import re
 
+
 class PrologAdapter:
+
     def __init__(self):
+
         self.prolog = Prolog()
-        # Rutas relativas desde: practica1/backend/app/adapters -> subir 3 niveles a practica1 -> prolog
-        self.prolog.consult("../../prolog/knowledge_base.pl")
-        self.prolog.consult("../../prolog/routes.pl")
-        self.prolog.consult("../../prolog/city_management.pl")
+
+        # practica1/
+        self.BASE_DIR = Path(__file__).resolve().parents[3]
+
+        # practica1/prolog/
+        self.PROLOG_DIR = self.BASE_DIR / "prolog"
+
+        # practica1/prolog/data.pl
+        self.DATA_FILE = self.PROLOG_DIR / "data.pl"
+
+        self.prolog.consult(
+            str(self.PROLOG_DIR / "knowledge_base.pl")
+        )
+
+        self.prolog.consult(
+            str(self.PROLOG_DIR / "routes.pl")
+        )
+
+        self.prolog.consult(
+            str(self.PROLOG_DIR / "city_management.pl")
+        )
 
     def _normalize_atom(self, name: str) -> str:
-        # Normaliza nombres de ciudades a átomos válidos en minúsculas con guiones bajos
-        n = str(name).strip().lower().replace(" ", "_")
-        n = re.sub(r"[^a-z0-9_]", "", n)
-        if not n:
-            raise ValueError("Nombre inválido para atomizar")
-        return n
+
+        atom = (
+            str(name)
+            .strip()
+            .lower()
+            .replace(" ", "_")
+        )
+
+        atom = re.sub(
+            r"[^a-z0-9_]",
+            "",
+            atom
+        )
+
+        if not atom:
+            raise ValueError(
+                "Nombre inválido"
+            )
+
+        return atom
 
     def _parse_prolog_list(self, term):
-        # Intenta manejar distintos formatos que pyswip puede devolver
+
         if term is None:
             return []
-        # Si pyswip ya retornó lista/tuple
-        try:
-            if isinstance(term, (list, tuple)):
-                return [str(x) for x in term]
-        except Exception:
-            pass
+
+        if isinstance(term, (list, tuple)):
+            return [str(x) for x in term]
+
         s = str(term).strip()
-        # Formato como "[a,b,c]"
+
         if s.startswith("[") and s.endswith("]"):
-            inner = s[1:-1].strip()
-            if inner == "":
+
+            contenido = s[1:-1].strip()
+
+            if not contenido:
                 return []
-            parts = [p.strip() for p in inner.split(",")]
-            return parts
-        # Si llega como átomo simple
+
+            return [
+                x.strip()
+                for x in contenido.split(",")
+            ]
+
         return [s]
 
-    def find_shortest_route(self, origen: str, destino: str):
+        # CIUDADES
+    
+    def get_all_cities(self):
+
+        resultados = list(
+            self.prolog.query(
+                "findall(C, ciudad(C), Cities)"
+            )
+        )
+
+        if not resultados:
+            return []
+
+        return self._parse_prolog_list(
+            resultados[0]["Cities"]
+        )
+
+    def add_city(self, nombre: str):
+
+        atom = self._normalize_atom(nombre)
+
+        existe = list(
+            self.prolog.query(
+                f"ciudad({atom})"
+            )
+        )
+
+        if existe:
+            raise ValueError(
+                f"La ciudad '{nombre}' ya existe"
+            )
+
+        resultado = list(
+            self.prolog.query(
+                f"agregar_ciudad({atom})"
+            )
+        )
+
+        if not resultado:
+            raise RuntimeError(
+                "No se pudo agregar la ciudad"
+            )
+
+        with open(
+            self.DATA_FILE,
+            "a",
+            encoding="utf-8"
+        ) as file:
+
+            file.write(
+                f"\nciudad({atom})."
+            )
+
+        return True
+
+        # CONEXIONES
+    
+    def add_connection(
+        self,
+        origen: str,
+        destino: str,
+        distancia: int
+    ):
+
         o = self._normalize_atom(origen)
         d = self._normalize_atom(destino)
-        consulta = f"ruta_mas_corta({o},{d},Ruta,Distancia)"
-        resultados = list(self.prolog.query(consulta))
-        if not resultados:
-            return None
-        res = resultados[0]
-        ruta = self._parse_prolog_list(res.get("Ruta"))
-        distancia = res.get("Distancia")
+
         try:
             distancia = int(distancia)
         except Exception:
-            distancia = int(str(distancia))
-        return {"ruta": ruta, "distancia": distancia}
+            raise ValueError(
+                "La distancia debe ser un entero"
+            )
 
-    def find_all_routes(self, origen: str, destino: str):
-        o = self._normalize_atom(origen)
-        d = self._normalize_atom(destino)
-        # Usamos findall para obtener todas las rutas con sus distancias
-        consulta = f"findall([R,D], ruta({o},{d},R,D), Rutas)"
-        resultados = list(self.prolog.query(consulta))
-        if not resultados:
-            return []
-        raw = resultados[0].get("Rutas")
-        rutas = []
-        # raw puede ser lista de listas; cada elemento es [Ruta,Distancia]
-        if isinstance(raw, (list, tuple)):
-            for pair in raw:
-                if not pair:
-                    continue
-                rterm = pair[0]
-                dterm = pair[1] if len(pair) > 1 else None
-                ruta = self._parse_prolog_list(rterm)
-                try:
-                    distancia = int(dterm)
-                except Exception:
-                    distancia = int(str(dterm))
-                rutas.append({"ruta": ruta, "distancia": distancia})
-        else:
-            # Fallback: intentar parsear string
-            rutas.append({"ruta": self._parse_prolog_list(raw), "distancia": None})
-        # Ordenar por distancia ascendente
-        rutas.sort(key=lambda x: x["distancia"] if x["distancia"] is not None else float("inf"))
-        return rutas
+        if distancia <= 0:
+            raise ValueError(
+                "La distancia debe ser mayor que cero"
+            )
 
-    def get_all_cities(self):
-        resultados = list(self.prolog.query("findall(C, ciudad(C), Cities)"))
-        if not resultados:
-            return []
-        cities_raw = resultados[0].get("Cities")
-        return self._parse_prolog_list(cities_raw)
+        existe = list(
+            self.prolog.query(
+                f"conexion({o},{d},{distancia})"
+            )
+        )
 
-    def add_city(self, nombre: str):
-        atom = self._normalize_atom(nombre)
-        # Ejecutar agregar_ciudad/1; si ya existe la consulta falla (no éxito)
-        resultados = list(self.prolog.query(f"agregar_ciudad({atom})"))
-        if not resultados:
-            # Si no se pudo agregar, verificar si ya existe
-            exists = list(self.prolog.query(f"ciudad({atom})"))
-            if exists:
-                raise ValueError(f"La ciudad '{nombre}' ya existe")
-            raise RuntimeError("No se pudo agregar la ciudad")
+        if existe:
+            raise ValueError(
+                "La conexión ya existe"
+            )
+
+        resultado = list(
+            self.prolog.query(
+                f"agregar_conexion({o},{d},{distancia})"
+            )
+        )
+
+        if not resultado:
+            raise RuntimeError(
+                "No se pudo agregar la conexión"
+            )
+
+        with open(
+            self.DATA_FILE,
+            "a",
+            encoding="utf-8"
+        ) as file:
+
+            file.write(
+                f"\nconexion({o},{d},{distancia})."
+            )
+
         return True
 
-    def add_connection(self, origen: str, destino: str, distancia: int):
+        # RUTA MAS CORTA
+    
+    def find_shortest_route(
+        self,
+        origen: str,
+        destino: str
+    ):
+
         o = self._normalize_atom(origen)
         d = self._normalize_atom(destino)
-        if not isinstance(distancia, int):
-            try:
-                distancia = int(distancia)
-            except Exception:
-                raise ValueError("Distancia debe ser un entero")
-        resultados = list(self.prolog.query(f"agregar_conexion({o},{d},{distancia})"))
+
+        consulta = (
+            f"ruta_mas_corta("
+            f"{o},{d},Ruta,Distancia)"
+        )
+
+        resultados = list(
+            self.prolog.query(
+                consulta
+            )
+        )
+
         if not resultados:
-            # comprobar si la conexión ya existe
-            exists = list(self.prolog.query(f"conexion({o},{d},{distancia})"))
-            if exists:
-                raise ValueError("La conexión ya existe")
-            raise RuntimeError("No se pudo agregar la conexión")
-        return True
+            return None
+
+        resultado = resultados[0]
+
+        ruta = self._parse_prolog_list(
+            resultado["Ruta"]
+        )
+
+        distancia = int(
+            resultado["Distancia"]
+        )
+
+        return {
+            "ruta": ruta,
+            "distancia": distancia
+        }
+
+        # TODAS LAS RUTAS
+    
+    def find_all_routes(
+        self,
+        origen: str,
+        destino: str
+    ):
+
+        o = self._normalize_atom(origen)
+        d = self._normalize_atom(destino)
+
+        resultados = []
+
+        consulta = (
+            f"ruta({o},{d},Ruta,Distancia)"
+        )
+
+        for r in self.prolog.query(
+            consulta
+        ):
+
+            resultados.append({
+                "ruta": self._parse_prolog_list(
+                    r["Ruta"]
+                ),
+                "distancia": int(
+                    r["Distancia"]
+                )
+            })
+
+        resultados.sort(
+            key=lambda x: x["distancia"]
+        )
+
+        return resultados
