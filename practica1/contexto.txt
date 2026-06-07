@@ -1,0 +1,35 @@
+Enunciado de la Práctica
+3.1 Descripción del problema a resolver
+Una empresa de transporte interdepartamental desea contar con un sistema capaz de determinar la ruta más corta entre distintas ciudades conectadas por carreteras. Actualmente, las rutas y distancias se conocen, pero no existe un mecanismo automatizado que permita identificar el recorrido óptimo entre un punto de origen y un destino.
+Para resolver este problema, se desarrollará una solución híbrida donde Prolog será el encargado de representar el conocimiento y realizar la inferencia lógica para encontrar rutas y calcular distancias, mientras que Python actuará como backend, permitiendo recibir solicitudes del usuario, ejecutar consultas en Prolog y mostrar los resultados obtenidos.
+El sistema deberá permitir seleccionar una ciudad de origen y una ciudad destino, obteniendo como resultado la ruta recomendada y la distancia total recorrida.
+3.2 Alcance de la práctica
+La práctica debe cumplir con las siguientes funcionalidades mínimas:
+ Definir una base de conocimiento en Prolog con al menos 10 ciudades y sus respectivas conexiones.
+ Representar las distancias entre ciudades mediante hechos, indicando el origen, destino y distancia.
+ Permitir la búsqueda de rutas entre dos ciudades ingresadas por el usuario.
+ Evitar ciclos o rutas repetitivas, es decir, que una misma ciudad no se repita dentro de una ruta.
+ Calcular la distancia total de cada ruta encontrada.
+ Determinar automáticamente la ruta más corta entre una ciudad de origen y una ciudad destino.
+ Implementar un backend en Python que permite ejecutar consultas hacia Prolog.
+ Utilizar Prolog como motor principal de la lógica; Python solo debe encargarse de enviar consultas y mostrar resultados.
+ Mostrar al usuario la ruta encontrada y la distancia total recorrida.
+ Desarrollar un frontend funcional e intuitivo, donde el usuario pueda seleccionar o ingresar ciudades.
+ Permitir agregar nuevas ciudades y conexiones desde la aplicación.
+ Mostrar todas las rutas posibles entre dos ciudades, junto con su distancia total.
+ Implementar algún patrón de arquitectura para el backend
+
+
+Funcionalidades recomendadas
+ Comparar varias rutas y presentar estadísticas.
+ Validar que las ciudades ingresadas existan en la base de conocimiento.
+ Mostrar mensajes claros cuando no exista una ruta disponible.
+ Manejo de errores
+ Ordenar las rutas de menor a mayor distancia.
+ Permitir reiniciar o limpiar la búsqueda desde la interfaz.
+ Presentar la información de forma visual, por ejemplo mediante tarjetas, tablas o listas.
+Restricciones
+ La lógica de búsqueda y optimización deberá implementarse exclusivamente en Prolog.
+ Python únicamente actuará como capa de integración y ejecución de consultas.
+ No se permite implementar el algoritmo de búsqueda de rutas directamente en Python.
+ No se puede usar bases de datos
