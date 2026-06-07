@@ -18,9 +18,19 @@ import {
 
 
 function createGraphData(
-    cities,
-    connections
+    cities = [],
+    connections = []
 ) {
+
+    if (!cities.length) {
+
+        return {
+            nodes: [],
+            links: []
+        };
+
+    }
+
     const width = 1100;
     const height = 650;
 
@@ -32,11 +42,10 @@ function createGraphData(
 
     const nodes = cities.map(
         (city, index) => {
+
             const angle =
-                (2 *
-                    Math.PI *
-                    index) /
-                cities.length;
+                (2 * Math.PI * index)
+                / cities.length;
 
             return {
                 id: city,
@@ -44,30 +53,26 @@ function createGraphData(
                 fx:
                     centerX +
                     radius *
-                        Math.cos(
-                            angle
-                        ),
+                        Math.cos(angle),
 
                 fy:
                     centerY +
                     radius *
-                        Math.sin(
-                            angle
-                        ),
+                        Math.sin(angle)
             };
         }
     );
 
     const links =
-        connections.map((c) => ({
+        connections.map(c => ({
             source: c.origen,
             target: c.destino,
-            distance: c.distancia,
+            distance: c.distancia
         }));
 
     return {
         nodes,
-        links,
+        links
     };
 }
 
