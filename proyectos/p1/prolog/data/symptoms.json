@@ -1,0 +1,102 @@
+[
+  {
+    "id": "S01",
+    "nombre": "Pantalla negra al encender",
+    "descripcion": "La computadora enciende pero no muestra imagen."
+  },
+  {
+    "id": "S02",
+    "nombre": "Pitidos al arrancar",
+    "descripcion": "Se escuchan sonidos o códigos de pitidos durante el arranque."
+  },
+  {
+    "id": "S03",
+    "nombre": "Reinicios inesperados",
+    "descripcion": "El sistema se reinicia sin intervención del usuario."
+  },
+  {
+    "id": "S04",
+    "nombre": "Apagados repentinos",
+    "descripcion": "La computadora se apaga de forma inesperada."
+  },
+  {
+    "id": "S05",
+    "nombre": "Sobrecalentamiento",
+    "descripcion": "El equipo alcanza temperaturas elevadas durante el uso."
+  },
+  {
+    "id": "S06",
+    "nombre": "Lentitud general del sistema",
+    "descripcion": "Las aplicaciones y procesos tardan demasiado en ejecutarse."
+  },
+  {
+    "id": "S07",
+    "nombre": "Congelamientos frecuentes",
+    "descripcion": "El sistema deja de responder durante algunos segundos o minutos."
+  },
+  {
+    "id": "S08",
+    "nombre": "Pantalla azul",
+    "descripcion": "El sistema operativo muestra errores críticos y se detiene."
+  },
+  {
+    "id": "S09",
+    "nombre": "No detecta el disco duro",
+    "descripcion": "El BIOS o sistema operativo no reconoce el almacenamiento."
+  },
+  {
+    "id": "S10",
+    "nombre": "Error al iniciar el sistema operativo",
+    "descripcion": "El sistema operativo no logra arrancar correctamente."
+  },
+  {
+    "id": "S11",
+    "nombre": "Archivos corruptos",
+    "descripcion": "Los archivos presentan errores o no pueden abrirse."
+  },
+  {
+    "id": "S12",
+    "nombre": "Conexión a internet inestable",
+    "descripcion": "La red se desconecta constantemente."
+  },
+  {
+    "id": "S13",
+    "nombre": "No detecta redes WiFi",
+    "descripcion": "El sistema no encuentra redes inalámbricas disponibles."
+  },
+  {
+    "id": "S14",
+    "nombre": "Puertos USB no funcionan",
+    "descripcion": "Los dispositivos USB no son reconocidos."
+  },
+  {
+    "id": "S15",
+    "nombre": "Ruido extraño en el disco",
+    "descripcion": "Se escuchan clics o sonidos anormales provenientes del disco."
+  },
+  {
+    "id": "S16",
+    "nombre": "Ventilador hace mucho ruido",
+    "descripcion": "Los ventiladores operan constantemente a altas revoluciones."
+  },
+  {
+    "id": "S17",
+    "nombre": "Programas se cierran solos",
+    "descripcion": "Las aplicaciones finalizan inesperadamente."
+  },
+  {
+    "id": "S18",
+    "nombre": "Aparición de ventanas emergentes",
+    "descripcion": "Se muestran anuncios o ventanas sospechosas constantemente."
+  },
+  {
+    "id": "S19",
+    "nombre": "No enciende",
+    "descripcion": "La computadora no muestra señales de encendido."
+  },
+  {
+    "id": "S20",
+    "nombre": "Batería se descarga rápidamente",
+    "descripcion": "La autonomía de la batería es mucho menor de lo esperado."
+  }
+]

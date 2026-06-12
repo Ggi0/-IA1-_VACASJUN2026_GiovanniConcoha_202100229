@@ -1,0 +1,77 @@
+[
+  {
+    "id": "R01",
+    "falla_id": "F01",
+    "descripcion": "Apagar el equipo, retirar los módulos RAM, limpiarlos y volver a instalarlos."
+  },
+  {
+    "id": "R02",
+    "falla_id": "F02",
+    "descripcion": "Limpiar ventiladores y verificar que las salidas de aire no estén obstruidas."
+  },
+  {
+    "id": "R03",
+    "falla_id": "F03",
+    "descripcion": "Realizar una copia de seguridad inmediata y ejecutar herramientas de diagnóstico del disco."
+  },
+  {
+    "id": "R04",
+    "falla_id": "F04",
+    "descripcion": "Ejecutar herramientas de reparación o reinstalar el sistema operativo."
+  },
+  {
+    "id": "R05",
+    "falla_id": "F05",
+    "descripcion": "Actualizar o reinstalar los controladores afectados."
+  },
+  {
+    "id": "R06",
+    "falla_id": "F06",
+    "descripcion": "Realizar un análisis completo con un antivirus actualizado."
+  },
+  {
+    "id": "R07",
+    "falla_id": "F07",
+    "descripcion": "Verificar la configuración de red y reinstalar el controlador del adaptador."
+  },
+  {
+    "id": "R08",
+    "falla_id": "F08",
+    "descripcion": "Comprobar voltajes y considerar reemplazar la fuente de poder."
+  },
+  {
+    "id": "R09",
+    "falla_id": "F09",
+    "descripcion": "Verificar conexiones de video y actualizar los controladores gráficos."
+  },
+  {
+    "id": "R10",
+    "falla_id": "F10",
+    "descripcion": "Probar diferentes dispositivos USB y revisar los controladores correspondientes."
+  },
+  {
+    "id": "R11",
+    "falla_id": "F11",
+    "descripcion": "Calibrar la batería o reemplazarla si presenta desgaste severo."
+  },
+  {
+    "id": "R12",
+    "falla_id": "F12",
+    "descripcion": "Deshabilitar programas innecesarios que se ejecutan al iniciar el sistema."
+  },
+  {
+    "id": "R13",
+    "falla_id": "F13",
+    "descripcion": "Restablecer la configuración predeterminada del BIOS y verificar los parámetros de arranque."
+  },
+  {
+    "id": "R14",
+    "falla_id": "F14",
+    "descripcion": "Revisar que el ventilador esté limpio, conectado correctamente y girando sin obstrucciones; reemplazarlo si no funciona adecuadamente."
+  },
+  {
+    "id": "R15",
+    "falla_id": "F15",
+    "descripcion": "Verificar visualmente la placa madre en busca de condensadores dañados o quemaduras; si el problema persiste, considerar reemplazar la motherboard."
+  }
+]
