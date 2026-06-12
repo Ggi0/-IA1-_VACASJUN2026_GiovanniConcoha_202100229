@@ -36,3 +36,7 @@ ciudad(quiche).
 conexion(guatemala,quiche,300).
 ciudad(sanjuansac).
 conexion(quiche,sanjuansac,500).
+ciudad(espania).
+conexion(espania,jalapa,300).
+ciudad(calificacion1).
+conexion(espania,calificacion1,200).
