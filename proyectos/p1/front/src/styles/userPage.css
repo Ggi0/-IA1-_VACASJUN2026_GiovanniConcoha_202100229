@@ -1,0 +1,226 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+.user-page {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.top-header h1 {
+  margin: 0;
+}
+
+.admin-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-btn:hover {
+  background: #b91c1c;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.left-section,
+.right-section {
+  background: rgb(167, 194, 230);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.user-form-box {
+  margin-bottom: 20px;
+}
+
+.user-form-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.user-form-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.symptoms-section h2,
+.right-section h2 {
+  margin-top: 0;
+}
+
+.symptoms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.symptom-card {
+  display: block;
+  border: 2px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: 0.2s ease;
+}
+
+.symptom-card:hover {
+  transform: translateY(-2px);
+  border-color: #60a5fa;
+}
+
+.symptom-card.selected {
+  background: #cab476ab;
+  border: 3px solid #ffd000;
+}
+
+.symptom-card input {
+  margin-bottom: 10px;
+  transform: scale(1.2);
+}
+
+.symptom-content h4 {
+  margin: 0 0 6px;
+}
+
+.symptom-content p {
+  margin: 0 0 8px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.symptom-id {
+  display: inline-block;
+  font-size: 12px;
+  background: #f0b289;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.action-row {
+  margin: 20px 0;
+}
+
+.diagnose-btn {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.diagnose-btn:hover {
+  background: #15803d;
+}
+
+.diagnose-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.message-box {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.result-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.panel-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  min-height: 220px;
+}
+
+.panel-box h3 {
+  margin-top: 0;
+}
+
+.diagnosis-item {
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.recommendation-list {
+  padding-left: 18px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-card {
+  background: #6c99c5;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.history-card:hover {
+  background: #eff6ff;
+  border: 4px solid #a00d0d;
+
+}
+
+.history-card h4 {
+  margin: 0 0 8px;
+}
+
+.history-card p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .result-panels {
+    grid-template-columns: 1fr;
+  }
+}

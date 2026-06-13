@@ -1,195 +1,88 @@
 [
   {
-    "id": "660040d8-c458-48ba-8d3a-88beac27d5db",
-    "fecha": "2026-06-13T00:49:46",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01",
-      "S03"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "ac907e2f-63d2-46b5-b5a0-579714756b53",
-    "fecha": "2026-06-13T00:49:58",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "3643eb9d-0b7e-49a9-80c9-2938f94225c8",
-    "fecha": "2026-06-13T01:05:02",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S07"
-    ],
-    "diagnosticos": [
-      {
-        "falla_id": "F04",
-        "nombre": "Sistema operativo corrupto",
-        "tipo": "Software",
-        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
-        "recomendaciones": [
-          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
-        ]
-      }
-    ]
-  },
-  {
-    "id": "eeca7e8f-610a-4bb2-934b-f75f750aa74b",
-    "fecha": "2026-06-13T01:12:35",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S07",
-      "S08"
-    ],
-    "diagnosticos": [
-      {
-        "falla_id": "F03",
-        "nombre": "Disco duro dañado",
-        "tipo": "Hardware",
-        "descripcion": "La unidad de almacenamiento presenta sectores defectuosos o fallas mecánicas.",
-        "recomendaciones": [
-          "Realizar una copia de seguridad inmediata de los datos y ejecutar herramientas de diagnóstico como chkdsk o CrystalDiskInfo.",
-          "Considerar reemplazar el disco duro si la herramienta reporta sectores defectuosos graves."
-        ]
-      },
-      {
-        "falla_id": "F04",
-        "nombre": "Sistema operativo corrupto",
-        "tipo": "Software",
-        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
-        "recomendaciones": [
-          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
-        ]
-      }
-    ]
-  },
-  {
-    "id": "2d479754-4b93-4388-8cf7-6ecbf64e0f9e",
-    "fecha": "2026-06-13T01:12:57",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S07",
-      "S08",
-      "S09"
-    ],
-    "diagnosticos": [
-      {
-        "falla_id": "F03",
-        "nombre": "Disco duro dañado",
-        "tipo": "Hardware",
-        "descripcion": "La unidad de almacenamiento presenta sectores defectuosos o fallas mecánicas.",
-        "recomendaciones": [
-          "Realizar una copia de seguridad inmediata de los datos y ejecutar herramientas de diagnóstico como chkdsk o CrystalDiskInfo.",
-          "Considerar reemplazar el disco duro si la herramienta reporta sectores defectuosos graves."
-        ]
-      },
-      {
-        "falla_id": "F04",
-        "nombre": "Sistema operativo corrupto",
-        "tipo": "Software",
-        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
-        "recomendaciones": [
-          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
-        ]
-      }
-    ]
-  },
-  {
-    "id": "59ed09cf-fa64-4b20-ab5e-7206da838be9",
-    "fecha": "2026-06-13T01:13:30",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S03",
-      "S04"
-    ],
-    "diagnosticos": [
-      {
-        "falla_id": "F05",
-        "nombre": "Fallo de fuente de alimentación",
-        "tipo": "Hardware",
-        "descripcion": "La fuente de poder no suministra voltaje estable o suficiente.",
-        "recomendaciones": [
-          "Verificar que el cable de alimentación esté correctamente conectado y probar con otra fuente de poder si es posible."
-        ]
-      }
-    ]
-  },
-  {
-    "id": "4c70bfcc-7e72-49d4-b6ad-d937f96013f7",
-    "fecha": "2026-06-13T02:22:11",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S09",
-      "S19"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "6143e484-068c-4533-90b4-b2cf2e8f287f",
-    "fecha": "2026-06-13T02:23:11",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01",
-      "S13"
-    ],
-    "diagnosticos": [
-      {
-        "falla_id": "F08",
-        "nombre": "Fallo de controladora de red",
-        "tipo": "Red",
-        "descripcion": "La tarjeta de red o sus drivers presentan problemas.",
-        "recomendaciones": [
-          "Actualizar los drivers de la tarjeta de red y verificar la configuración TCP/IP del sistema."
-        ]
-      }
-    ]
-  },
-  {
-    "id": "72fd1380-6885-4f24-8c0b-62603ec452e5",
-    "fecha": "2026-06-13T02:24:51",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "3992a404-d75c-4d80-a197-644084b47984",
-    "fecha": "2026-06-13T02:25:18",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "c48e78b1-1e73-4bad-9bd8-eecf59f87a0b",
-    "fecha": "2026-06-13T02:25:59",
-    "usuario": "Juan Pérez",
+    "id": "b65e774b-8875-4e00-a60a-71aab2cbfa76",
+    "fecha": "2026-06-13T03:15:16",
+    "usuario": "Usuario Anónimo",
     "sintomas_seleccionados": [
       "S18"
     ],
     "diagnosticos": []
   },
   {
-    "id": "68d8fc6e-e7fe-4392-b970-48199ce5a048",
-    "fecha": "2026-06-13T02:26:14",
-    "usuario": "Juan Pérez",
+    "id": "4308e966-0664-4bb9-908f-ba10161e33c9",
+    "fecha": "2026-06-13T03:15:31",
+    "usuario": "Usuario Anónimo",
     "sintomas_seleccionados": [
-      "S09"
+      "S02"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "13755c8e-0bf3-4340-baf7-1a363a681ad1",
+    "fecha": "2026-06-13T03:16:12",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S01",
+      "S17"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "1314ebe7-7dd8-4fbe-947b-7fc6bef951c8",
+    "fecha": "2026-06-13T03:16:50",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S11"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F02",
+        "nombre": "Sobrecalentamiento del sistema",
+        "tipo": "Hardware",
+        "descripcion": "El equipo presenta temperaturas excesivas que afectan su funcionamiento.",
+        "recomendaciones": [
+          "Limpiar ventiladores internos y verificar que las salidas de aire no estén obstruidas por polvo.",
+          "Revisar que el pasta térmica del procesador no esté seca y reemplazarla si es necesario."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "d80be644-d82b-4954-ac03-82a26456ecfa",
+    "fecha": "2026-06-13T03:33:38",
+    "usuario": "By",
+    "sintomas_seleccionados": [
+      "S03"
     ],
     "diagnosticos": []
   },
   {
-    "id": "cb446805-805b-4012-98f0-89dbf567ee0b",
-    "fecha": "2026-06-13T02:26:33",
-    "usuario": "Juan Pérez",
+    "id": "702c8ab1-9feb-4b7f-9c54-86a7baa94f8e",
+    "fecha": "2026-06-13T03:33:44",
+    "usuario": "By",
     "sintomas_seleccionados": [
-      "S05",
       "S20"
     ],
     "diagnosticos": [
@@ -203,24 +96,5 @@
         ]
       }
     ]
-  },
-  {
-    "id": "5a608692-e066-437c-87ab-01d33f952457",
-    "fecha": "2026-06-13T02:26:57",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01",
-      "S03"
-    ],
-    "diagnosticos": []
-  },
-  {
-    "id": "9d26a872-c42e-451d-a5a6-be899bf9a3b8",
-    "fecha": "2026-06-13T02:27:57",
-    "usuario": "Juan Pérez",
-    "sintomas_seleccionados": [
-      "S01"
-    ],
-    "diagnosticos": []
   }
 ]
