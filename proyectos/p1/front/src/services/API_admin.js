@@ -164,4 +164,15 @@ export const deleteAdminRegla = async (payload) => {
   return response.data;
 };
 
+
+export const postAdminTelegramMensaje = async (payload) => {
+  console.log("Payload POST /admin/telegram/mensaje:", payload);
+
+  const response = await apiAdmin.post(
+    "/admin/telegram/mensaje",
+    payload
+  );
+
+  return response.data;
+};
 export default apiAdmin;

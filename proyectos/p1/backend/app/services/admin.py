@@ -13,7 +13,7 @@ No hay base de datos externa; Prolog ES la fuente de verdad.
 """
 
 from app.adapter import prolog_adapter as prolog
-
+from app.services.telegram import enviar_mensaje_personalizado
 
 
 # SÍNTOMAS
@@ -204,3 +204,11 @@ def eliminar_regla(falla_id: str, sintomas: list[str]) -> dict:
 
     prolog.eliminar_regla(falla_id, sintomas)
     return {"ok": True}
+
+
+def enviar_mensaje_telegram(mensaje: str) -> bool:
+
+    if not mensaje.strip():
+        return False
+
+    return enviar_mensaje_personalizado(mensaje)

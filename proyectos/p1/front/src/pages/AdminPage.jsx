@@ -16,6 +16,7 @@ import {
   getAdminReglas,
   postAdminRegla,
   deleteAdminRegla,
+  postAdminTelegramMensaje,
 } from "../services/API_admin";
 import "../styles/adminPage.css";
 
@@ -116,29 +117,56 @@ const AdminPage = () => {
       .filter(Boolean);
   };
 
-  const handleEnviarMensajeAdmin = () => {
-    const payload = {
-      habilitarMensajes,
-      mensaje: mensajeAdmin,
-    };
-
-    console.log("Payload panel derecho ADMIN:", payload);
+  const handleEnviarMensajeAdmin = async () => {
+  try {
 
     if (!habilitarMensajes) {
-      setMensajeGlobal("Mensajes deshabilitados. No se envió nada.");
+      setMensajeGlobal(
+        "Mensajes deshabilitados. No se envió nada."
+      );
       return;
     }
 
     if (!mensajeAdmin.trim()) {
-      setMensajeGlobal("Debes escribir un mensaje en la caja de texto.");
+      setMensajeGlobal(
+        "Debes escribir un mensaje en la caja de texto."
+      );
       return;
     }
 
-    // No se consume endpoint porque no fue proporcionado
-    setMensajeGlobal(
-      "Mensaje preparado desde el front (revisa consola para el payload)."
+    const payload = {
+      mensaje: mensajeAdmin.trim(),
+    };
+
+    console.log(
+      "Payload Telegram Admin:",
+      payload
     );
-  };
+
+    const data = await postAdminTelegramMensaje(
+      payload
+    );
+
+    setMensajeGlobal(
+      data.mensaje ||
+      "Mensaje enviado correctamente."
+    );
+
+    setMensajeAdmin("");
+
+  } catch (error) {
+
+    console.error(
+      "Error enviando mensaje Telegram:",
+      error
+    );
+
+    setMensajeGlobal(
+      error.response?.data?.error ||
+      "Error al enviar mensaje."
+    );
+  }
+};
 
   //
   // =========================
@@ -915,7 +943,7 @@ const AdminPage = () => {
             </label>
 
             <textarea
-              placeholder="Escribe aquí tu mensaje o nota administrativa..."
+              placeholder="Escribe aquí tu mensaje personalizado.."
               value={mensajeAdmin}
               onChange={(e) => setMensajeAdmin(e.target.value)}
             />
@@ -924,22 +952,9 @@ const AdminPage = () => {
               Enviar
             </button>
 
-            <p className="small-note">
-              Esta caja imprime el payload en consola. Si luego me pasas el
-              endpoint de mensajes, te la conecto directo.
-            </p>
           </div>
 
-          <div className="side-box">
-            <h3>Ayuda rápida</h3>
-            <ul>
-              <li>Síntomas: CRUD completo</li>
-              <li>Fallas: CRUD completo</li>
-              <li>Recomendaciones: CRUD completo + filtro por falla</li>
-              <li>Reglas: listar, crear y eliminar</li>
-              <li>Todos los payloads se imprimen en consola</li>
-            </ul>
-          </div>
+    
         </aside>
       </div>
     </div>

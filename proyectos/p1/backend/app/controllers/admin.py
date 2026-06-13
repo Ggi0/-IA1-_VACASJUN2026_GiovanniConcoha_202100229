@@ -248,3 +248,23 @@ def eliminar_regla(body: ReglaBody):
     if not res["ok"]:
         return _error(res["motivo"], 404)
     return {"mensaje": f"Regla {body.falla_id} ← {body.sintomas} eliminada correctamente."}
+
+
+
+class MensajeTelegramBody(BaseModel):
+    mensaje: str
+
+@router.post("/telegram/mensaje")
+def enviar_mensaje_telegram(body: MensajeTelegramBody):
+
+    ok = svc.enviar_mensaje_telegram(body.mensaje)
+
+    if not ok:
+        return _error(
+            "No fue posible enviar el mensaje a Telegram.",
+            500
+        )
+
+    return {
+        "mensaje": "Mensaje enviado correctamente."
+    }

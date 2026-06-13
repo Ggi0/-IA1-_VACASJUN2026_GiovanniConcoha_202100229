@@ -309,5 +309,45 @@
         ]
       }
     ]
+  },
+  {
+    "id": "288d2019-891f-4d4c-9b77-dd5ad589ec45",
+    "fecha": "2026-06-13T11:43:53",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S02"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "38c676ca-1a03-4470-84fe-f7def413fabc",
+    "fecha": "2026-06-13T11:44:01",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S02"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
   }
 ]
