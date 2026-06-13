@@ -26,7 +26,7 @@ from pyswip import Prolog, Atom, Variable, Functor, call
 # ── Rutas ────────────────────────────────────────────────────────────────────
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
-PROLOG_DIR = BASE_DIR / "prolog"
+PROLOG_DIR = BASE_DIR / "p1/prolog"
 ENGINE_PATH = PROLOG_DIR / "engine.pl"
 
 DATA_FILES = {
@@ -35,6 +35,9 @@ DATA_FILES = {
     "recomendacion": PROLOG_DIR / "data" / "recommendations.pl",
     "regla":         PROLOG_DIR / "knowledge" / "rules.pl",
 }
+
+# /home/gio/Documentos/26S1/vacas/ia1_1S26V/-IA1-_VACASJUN2026_GiovanniConcoha_202100229/proyectos/prolog/engine.pl
+# /home/gio/Documentos/26S1/vacas/ia1_1S26V/-IA1-_VACASJUN2026_GiovanniConcoha_202100229/proyectos/p1/prolog/engine.pl
 
 # ── Singleton thread-safe ─────────────────────────────────────────────────────
 
@@ -125,30 +128,38 @@ def diagnosticar(sintomas: list[str]) -> list[dict]:
     # Construir lista Prolog como string: ['S01','S03','S11']
     sintomas_pl = "[" + ",".join(f"'{s}'" for s in sintomas) + "]"
 
-    query = f"diagnosticar_todos({sintomas_pl}, Lista)"
+    
+    query = (
+            f"diagnosticar({sintomas_pl}, "
+            f"FallaID, Nombre, Tipo, Descripcion, Recomendaciones)"
+        )
+
 
     resultados = []
+    vistos=set()  # Para evitar duplicados si el motor retorna varias veces la misma falla
     for sol in prolog.query(query):
-        lista_terminos = sol.get("Lista", [])
-        for termino in lista_terminos:
-            # termino es un Functor: diagnostico(FallaID, Nombre, Tipo, Desc, Recs)
-            args = termino.args
-            falla_id     = _atom(args[0])
-            nombre       = _atom(args[1])
-            tipo         = _atom(args[2])
-            descripcion  = _atom(args[3])
-            recomendaciones = _list_from_prolog(args[4])
+        falla_id = _atom(sol["FallaID"])
 
-            resultados.append({
-                "falla_id": falla_id,
-                "nombre": nombre,
-                "tipo": tipo,
-                "descripcion": descripcion,
-                "recomendaciones": recomendaciones,
-            })
-        break  # diagnosticar_todos es determinístico; una sola solución
+        # Evitar duplicados por FallaID
+        if falla_id in vistos:
+            continue
+        vistos.add(falla_id)
+
+        nombre = _atom(sol["Nombre"])
+        tipo = _atom(sol["Tipo"])
+        descripcion = _atom(sol["Descripcion"])
+        recomendaciones = _list_from_prolog(sol["Recomendaciones"])
+
+        resultados.append({
+            "falla_id": falla_id,
+            "nombre": nombre,
+            "tipo": tipo,
+            "descripcion": descripcion,
+            "recomendaciones": recomendaciones,
+        })
 
     return resultados
+
 
 
 # ── Consultas de listado ───────────────────────────────────────────────────────
@@ -162,16 +173,17 @@ def listar_sintomas() -> list[dict]:
     """
     prolog = get_prolog()
     resultado = []
-    for sol in prolog.query("todos_sintomas(Lista)"):
-        for term in sol["Lista"]:
-            args = term.args
-            resultado.append({
-                "id":          _atom(args[0]),
-                "nombre":      _atom(args[1]),
-                "descripcion": _atom(args[2]),
-            })
-        break
+    
+    # Consultar cada sintoma individualmente
+    for sol in prolog.query("sintoma(ID, Nombre, Descripcion)"):
+        resultado.append({
+            "id":          _atom(sol["ID"]),
+            "nombre":      _atom(sol["Nombre"]),
+            "descripcion": _atom(sol["Descripcion"]),
+        })
+
     return resultado
+
 
 
 def listar_fallas() -> list[dict]:
