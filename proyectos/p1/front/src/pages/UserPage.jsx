@@ -25,6 +25,7 @@ const UserPage = () => {
   const [historial, setHistorial] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [cargando, setCargando] = useState(false);
+  const [enviarTelegram, setEnviarTelegram] = useState(true);
 
   useEffect(() => {
     cargarDatosIniciales();
@@ -68,6 +69,7 @@ const UserPage = () => {
     const payload = {
       sintomas: seleccionados,
       usuario: usuario.trim() || "Usuario Anónimo",
+      mensaje: enviarTelegram,
     };
 
     console.log("Payload final recolectado por el front:", payload);
@@ -143,6 +145,17 @@ const UserPage = () => {
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
             />
+
+              <div className="telegram-option">
+    <label className="checkbox-label">
+      <input
+        type="checkbox"
+        checked={enviarTelegram}
+        onChange={(e) => setEnviarTelegram(e.target.checked)}
+      />
+      Enviar diagnóstico por Telegram
+    </label>
+  </div>
           </div>
 
           <div className="symptoms-section">

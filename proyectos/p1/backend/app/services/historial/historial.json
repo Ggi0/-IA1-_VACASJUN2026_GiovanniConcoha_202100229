@@ -270,5 +270,44 @@
       "S06"
     ],
     "diagnosticos": []
+  },
+  {
+    "id": "8fe70188-12eb-4822-95a0-40c88e67989b",
+    "fecha": "2026-06-13T11:13:01",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S02"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "2ef16dfd-e1a2-4cb6-a4a6-274e8a44c948",
+    "fecha": "2026-06-13T11:13:40",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S13"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F08",
+        "nombre": "Fallo de controladora de red",
+        "tipo": "Red",
+        "descripcion": "La tarjeta de red o sus drivers presentan problemas.",
+        "recomendaciones": [
+          "Actualizar los drivers de la tarjeta de red y verificar la configuración TCP/IP del sistema."
+        ]
+      }
+    ]
   }
 ]

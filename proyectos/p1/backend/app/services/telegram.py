@@ -23,7 +23,7 @@ def _construir_mensaje(entrada: dict) -> str:
     diagnosticos = entrada["diagnosticos"]
 
     mensaje = (
-        "🩺 <b>NUEVO DIAGNÓSTICO - DOCTOR BYTE</b>\n\n"
+        " <b>NUEVO DIAGNÓSTICO - DOCTOR BYTE</b>\n\n"
         f"👤 <b>Usuario:</b> {usuario}\n"
         f"📅 <b>Fecha:</b> {fecha}\n"
         f"🆔 <b>ID:</b> <code>{historial_id}</code>\n\n"

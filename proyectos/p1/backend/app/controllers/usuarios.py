@@ -28,6 +28,7 @@ router = APIRouter(tags=["Usuario"])
 class DiagnosticarRequest(BaseModel):
     sintomas: list[str]
     usuario: str | None = None
+    mensaje: bool = True
 
     # Validación: la lista no puede estar vacía
     @field_validator("sintomas")
@@ -46,7 +47,7 @@ def diagnosticar(body: DiagnosticarRequest):
     POST /api/diagnosticar
     Envía síntomas → obtiene diagnósticos + guarda historial + notifica Telegram.
     """
-    resultado = svc.diagnosticar(body.sintomas, body.usuario)
+    resultado = svc.diagnosticar(body.sintomas, body.usuario, body.mensaje)
 
     # Si no hay diagnósticos, agregar mensaje informativo
     if not resultado["diagnosticos"]:

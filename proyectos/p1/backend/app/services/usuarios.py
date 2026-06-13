@@ -48,7 +48,7 @@ def _guardar_entrada(entrada: dict) -> None:
 
 # ── Servicio principal: diagnosticar ─────────────────────────────────────────
 
-def diagnosticar(sintomas: list[str], usuario: str | None = None) -> dict:
+def diagnosticar(sintomas: list[str], usuario: str | None = None, mensaje: bool = True) -> dict:
     """
     Orquesta el diagnóstico completo:
       1. Llama a Prolog via adapter para obtener diagnósticos.
@@ -100,7 +100,10 @@ def diagnosticar(sintomas: list[str], usuario: str | None = None) -> dict:
     # Si no hay diagnósticos, se puede omitir la notificación o enviar
     # un mensaje de "sin resultados". 
     # ─────────────────────────────────────────────────────────────────────────
-    telegram_ok = enviar_diagnostico(entrada)   # reemplazar por el resultado real del bot
+    telegram_ok = False
+
+    if mensaje:
+        telegram_ok = enviar_diagnostico(entrada)
 
     return {
         "diagnosticos": diagnosticos,
