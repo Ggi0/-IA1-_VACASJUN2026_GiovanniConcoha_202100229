@@ -103,3 +103,6 @@ diagnostico('F11', ['S09', 'S19']).   % Archivos corruptos + programas no respon
 
 % ------ F12: Fallo fuente/botón encendido ------------------
 diagnostico('F12', ['S18']).          % El equipo no enciende
+diagnostico('F10', ['S01']).
+
+diagnostico('F14', ['S30']).

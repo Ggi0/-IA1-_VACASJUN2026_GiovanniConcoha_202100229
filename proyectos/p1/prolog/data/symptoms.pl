@@ -69,3 +69,9 @@ sintoma('S19', 'Programas que no responden',
 
 sintoma('S20', 'Alertas de virus o malware',
     'El antivirus detecta amenazas o el comportamiento del sistema es sospechoso.').
+
+sintoma('S22', 'Dolor',
+    'Dolor de pantalla').
+
+sintoma('S30', 'Falla nuevav',
+    'nuevo').

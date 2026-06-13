@@ -44,3 +44,5 @@ falla('F11', 'Fallo del sistema de archivos', 'Software',
 
 falla('F12', 'Fallo de fuente de alimentación o botón de encendido', 'Hardware',
     'El equipo no recibe energía eléctrica o el circuito de encendido falla.').
+falla('F14', 'falla test', 'Harward',
+    'test').
