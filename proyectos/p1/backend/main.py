@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from app.controllers.usuarios import router as usuarios_router
+from app.controllers.admin import router as admin_router
 # from controllers.city_controller import router as city_router
 
 app = FastAPI(
@@ -32,6 +33,7 @@ async def health():
     return {"status": "ok"}
 
 app.include_router(usuarios_router, prefix="/api")
+app.include_router(admin_router, prefix="/api")
 
 #app.include_router(route_router)
 #app.include_router(city_router)

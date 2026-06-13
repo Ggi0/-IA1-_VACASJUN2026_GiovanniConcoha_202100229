@@ -117,5 +117,110 @@
         ]
       }
     ]
+  },
+  {
+    "id": "4c70bfcc-7e72-49d4-b6ad-d937f96013f7",
+    "fecha": "2026-06-13T02:22:11",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S09",
+      "S19"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "6143e484-068c-4533-90b4-b2cf2e8f287f",
+    "fecha": "2026-06-13T02:23:11",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01",
+      "S13"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F08",
+        "nombre": "Fallo de controladora de red",
+        "tipo": "Red",
+        "descripcion": "La tarjeta de red o sus drivers presentan problemas.",
+        "recomendaciones": [
+          "Actualizar los drivers de la tarjeta de red y verificar la configuración TCP/IP del sistema."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "72fd1380-6885-4f24-8c0b-62603ec452e5",
+    "fecha": "2026-06-13T02:24:51",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "3992a404-d75c-4d80-a197-644084b47984",
+    "fecha": "2026-06-13T02:25:18",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "c48e78b1-1e73-4bad-9bd8-eecf59f87a0b",
+    "fecha": "2026-06-13T02:25:59",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S18"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "68d8fc6e-e7fe-4392-b970-48199ce5a048",
+    "fecha": "2026-06-13T02:26:14",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S09"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "cb446805-805b-4012-98f0-89dbf567ee0b",
+    "fecha": "2026-06-13T02:26:33",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S05",
+      "S20"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F07",
+        "nombre": "Infección por malware",
+        "tipo": "Seguridad",
+        "descripcion": "El sistema ha sido comprometido por software malicioso.",
+        "recomendaciones": [
+          "Ejecutar un análisis completo con el antivirus actualizado y considerar formatear el equipo si la infección es severa."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "5a608692-e066-437c-87ab-01d33f952457",
+    "fecha": "2026-06-13T02:26:57",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01",
+      "S03"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "9d26a872-c42e-451d-a5a6-be899bf9a3b8",
+    "fecha": "2026-06-13T02:27:57",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01"
+    ],
+    "diagnosticos": []
   }
 ]

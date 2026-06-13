@@ -195,16 +195,14 @@ def listar_fallas() -> list[dict]:
     """
     prolog = get_prolog()
     resultado = []
-    for sol in prolog.query("todas_fallas(Lista)"):
-        for term in sol["Lista"]:
-            args = term.args
-            resultado.append({
-                "id":          _atom(args[0]),
-                "nombre":      _atom(args[1]),
-                "tipo":        _atom(args[2]),
-                "descripcion": _atom(args[3]),
-            })
-        break
+    for sol in prolog.query("falla(ID, Nombre, Tipo, Descripcion)"):
+        resultado.append({
+            "id":          _atom(sol["ID"]),
+            "nombre":      _atom(sol["Nombre"]),
+            "tipo":        _atom(sol["Tipo"]),
+            "descripcion": _atom(sol["Descripcion"]),
+        })
+
     return resultado
 
 
@@ -217,15 +215,14 @@ def listar_recomendaciones() -> list[dict]:
     """
     prolog = get_prolog()
     resultado = []
-    for sol in prolog.query("todas_recomendaciones(Lista)"):
-        for term in sol["Lista"]:
-            args = term.args
-            resultado.append({
-                "id":          _atom(args[0]),
-                "falla_id":    _atom(args[1]),
-                "descripcion": _atom(args[2]),
-            })
-        break
+    
+    for sol in prolog.query("recomendacion(ID, FallaID, Descripcion)"):
+        resultado.append({
+            "id":          _atom(sol["ID"]),
+            "falla_id":    _atom(sol["FallaID"]),
+            "descripcion": _atom(sol["Descripcion"]),
+        })
+
     return resultado
 
 
@@ -238,14 +235,13 @@ def listar_reglas() -> list[dict]:
     """
     prolog = get_prolog()
     resultado = []
-    for sol in prolog.query("todas_reglas(Lista)"):
-        for term in sol["Lista"]:
-            args = term.args
-            resultado.append({
-                "falla_id": _atom(args[0]),
-                "sintomas": _list_from_prolog(args[1]),
-            })
-        break
+    
+    for sol in prolog.query("diagnostico(FallaID, Sintomas)"):
+        resultado.append({
+            "falla_id": _atom(sol["FallaID"]),
+            "sintomas": _list_from_prolog(sol["Sintomas"]),
+        })
+
     return resultado
 
 
