@@ -1,0 +1,121 @@
+[
+  {
+    "id": "660040d8-c458-48ba-8d3a-88beac27d5db",
+    "fecha": "2026-06-13T00:49:46",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01",
+      "S03"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "ac907e2f-63d2-46b5-b5a0-579714756b53",
+    "fecha": "2026-06-13T00:49:58",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S01"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "3643eb9d-0b7e-49a9-80c9-2938f94225c8",
+    "fecha": "2026-06-13T01:05:02",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S07"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F04",
+        "nombre": "Sistema operativo corrupto",
+        "tipo": "Software",
+        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
+        "recomendaciones": [
+          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eeca7e8f-610a-4bb2-934b-f75f750aa74b",
+    "fecha": "2026-06-13T01:12:35",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S07",
+      "S08"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F03",
+        "nombre": "Disco duro dañado",
+        "tipo": "Hardware",
+        "descripcion": "La unidad de almacenamiento presenta sectores defectuosos o fallas mecánicas.",
+        "recomendaciones": [
+          "Realizar una copia de seguridad inmediata de los datos y ejecutar herramientas de diagnóstico como chkdsk o CrystalDiskInfo.",
+          "Considerar reemplazar el disco duro si la herramienta reporta sectores defectuosos graves."
+        ]
+      },
+      {
+        "falla_id": "F04",
+        "nombre": "Sistema operativo corrupto",
+        "tipo": "Software",
+        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
+        "recomendaciones": [
+          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "2d479754-4b93-4388-8cf7-6ecbf64e0f9e",
+    "fecha": "2026-06-13T01:12:57",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S07",
+      "S08",
+      "S09"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F03",
+        "nombre": "Disco duro dañado",
+        "tipo": "Hardware",
+        "descripcion": "La unidad de almacenamiento presenta sectores defectuosos o fallas mecánicas.",
+        "recomendaciones": [
+          "Realizar una copia de seguridad inmediata de los datos y ejecutar herramientas de diagnóstico como chkdsk o CrystalDiskInfo.",
+          "Considerar reemplazar el disco duro si la herramienta reporta sectores defectuosos graves."
+        ]
+      },
+      {
+        "falla_id": "F04",
+        "nombre": "Sistema operativo corrupto",
+        "tipo": "Software",
+        "descripcion": "Archivos críticos del sistema operativo están dañados o ausentes.",
+        "recomendaciones": [
+          "Ejecutar la herramienta de reparación de inicio de Windows (sfc /scannow) o reinstalar el sistema operativo."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "59ed09cf-fa64-4b20-ab5e-7206da838be9",
+    "fecha": "2026-06-13T01:13:30",
+    "usuario": "Juan Pérez",
+    "sintomas_seleccionados": [
+      "S03",
+      "S04"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F05",
+        "nombre": "Fallo de fuente de alimentación",
+        "tipo": "Hardware",
+        "descripcion": "La fuente de poder no suministra voltaje estable o suficiente.",
+        "recomendaciones": [
+          "Verificar que el cable de alimentación esté correctamente conectado y probar con otra fuente de poder si es posible."
+        ]
+      }
+    ]
+  }
+]
