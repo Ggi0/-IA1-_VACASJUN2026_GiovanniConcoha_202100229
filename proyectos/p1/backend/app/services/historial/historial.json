@@ -143,5 +143,132 @@
       "S30"
     ],
     "diagnosticos": []
+  },
+  {
+    "id": "6b63736e-9915-42c4-811a-9993d6087905",
+    "fecha": "2026-06-13T10:34:41",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S03"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "22771beb-b658-413a-8772-2bf1be433b9d",
+    "fecha": "2026-06-13T10:35:32",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S05"
+    ],
+    "diagnosticos": []
+  },
+  {
+    "id": "83829df4-ced0-48fc-bd8b-e75c020f2b87",
+    "fecha": "2026-06-13T10:35:39",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S20"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F07",
+        "nombre": "Infección por malware",
+        "tipo": "Seguridad",
+        "descripcion": "El sistema ha sido comprometido por software malicioso.",
+        "recomendaciones": [
+          "Ejecutar un análisis completo con el antivirus actualizado y considerar formatear el equipo si la infección es severa."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a6a0a69c-cd86-4b96-800c-b98190ecf577",
+    "fecha": "2026-06-13T10:36:39",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S01",
+      "S17"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "320798d2-15dc-4b61-a998-e68258d8c843",
+    "fecha": "2026-06-13T10:40:48",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S01",
+      "S17"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "95d216e2-cec3-400a-b7cb-d7c6f5e1ca11",
+    "fecha": "2026-06-13T10:46:24",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S02"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F01",
+        "nombre": "Memoria RAM defectuosa",
+        "tipo": "Hardware",
+        "descripcion": "Posible fallo físico o mala conexión de los módulos de memoria RAM.",
+        "recomendaciones": [
+          "Apagar el equipo, retirar los módulos RAM, limpiar los contactos con borrador y volver a instalarlos correctamente.",
+          "Probar con un solo módulo RAM a la vez para identificar cuál está defectuoso."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "3900d51e-26b0-45cc-acc9-7480cb799f93",
+    "fecha": "2026-06-13T10:46:50",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S13"
+    ],
+    "diagnosticos": [
+      {
+        "falla_id": "F08",
+        "nombre": "Fallo de controladora de red",
+        "tipo": "Red",
+        "descripcion": "La tarjeta de red o sus drivers presentan problemas.",
+        "recomendaciones": [
+          "Actualizar los drivers de la tarjeta de red y verificar la configuración TCP/IP del sistema."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "3f044ee4-0e34-4388-83e7-58ff68e53aa8",
+    "fecha": "2026-06-13T10:46:57",
+    "usuario": "Usuario Anónimo",
+    "sintomas_seleccionados": [
+      "S06"
+    ],
+    "diagnosticos": []
   }
 ]

@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 from app.adapter import prolog_adapter as prolog
+from app.services.telegram import enviar_diagnostico
 
 # ── Ruta del historial ────────────────────────────────────────────────────────
 
@@ -80,6 +81,8 @@ def diagnosticar(sintomas: list[str], usuario: str | None = None) -> dict:
     # 3. Persistir en historial.json (append, no sobrescribir)
     _guardar_entrada(entrada)
 
+    print(entrada)
+
     # 4. ── TELEGRAM ───────────────────────────────────────────────────────────
     # Aquí va la llamada al servicio de Telegram.
     # Se debe importar el módulo del bot y llamar algo como:
@@ -95,9 +98,9 @@ def diagnosticar(sintomas: list[str], usuario: str | None = None) -> dict:
     #   - Fecha y historial_id
     #
     # Si no hay diagnósticos, se puede omitir la notificación o enviar
-    # un mensaje de "sin resultados". Eso lo decide el equipo.
+    # un mensaje de "sin resultados". 
     # ─────────────────────────────────────────────────────────────────────────
-    telegram_ok = False   # reemplazar por el resultado real del bot
+    telegram_ok = enviar_diagnostico(entrada)   # reemplazar por el resultado real del bot
 
     return {
         "diagnosticos": diagnosticos,
