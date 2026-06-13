@@ -1,208 +1,147 @@
-:- encoding(utf8).
 
-% Carga de módulos del sistema experto (orden importante)
-:- ensure_loaded('knowledge/helpers.pl').    % auxiliares y síntomas activos
-:- ensure_loaded('knowledge/diagnoses.pl').  % fallas y recomendaciones
-:- ensure_loaded('knowledge/rules.pl').      % reglas de inferencia
-
-
-% PREDICADO PRINCIPAL: diagnosticar/1
-
-diagnosticar(Resultado) :-
-    % 1. Obtener todos los diagnosticos que aplican
-    todos_los_diagnosticos(DiagnosticosRaw),
-
-    % 2. Construir resultado enriquecido con datos de diagnoses.pl
-    construir_resultado(DiagnosticosRaw, Resultado).
-
-
-
-% construir_resultado(+DiagnosticosRaw, -Resultado)
-% Transforma la lista de falla(ID, Sintomas) en términos diagnóstico/6 con todos los datos necesarios para el backend Python.
-
-construir_resultado([], []).
-construir_resultado([falla(ID, Sintomas)|Resto], [Diag|RestoRes]) :-
-    
-    % Obtener datos de la falla desde diagnoses.pl
-    obtener_falla(ID, Nombre, Tipo, DescFalla),
-    
-    % Obtener recomendación asociada a la falla
-    obtener_recomendacion(ID, Recomendacion),
-    
-    % Construir el termino de diagnóstico
-    Diag = diagnostico(ID, Nombre, Tipo, DescFalla, Recomendacion, Sintomas),
-    
-    % Continuar con el resto
-    construir_resultado(Resto, RestoRes).
-
-% Caso de falla no encontrada en el catálogo (seguridad ante inconsistencias)
-construir_resultado([falla(ID, _)|Resto], RestoRes) :-
-    \+ falla(ID, _, _, _),       % la falla no existe en el catálogo
-    construir_resultado(Resto, RestoRes).
-
-
-
-%                                                               CONSULTA DE CATÁLOGOS
-% Predicados que permiten al backend obtener los datos maestros del sistema.
-
-
-
-% listar_sintomas(-Lista)
-% Devuelve todos los síntomas disponibles como lista de terminos:
-%   sintoma(ID, Nombre)
+% engine.pl
+% Punto de entrada del motor de inferencia Doctor Byte.
+% Carga todos los módulos y expone los predicados públicos
+% que el adapter de Python (pyswip) va a consultar.
 %
-% Ejemplo de uso desde Python:
-%   query listar_sintomas(L)
-%   L = [sintoma(s01, 'Pantalla negra al encender'), ...]
+% Uso desde Python:
+%   prolog = Prolog()
+%   prolog.consult('engine.pl')
+%   list(prolog.query("diagnosticar([...], FallaID, Nombre, Tipo, Desc, Recs)"))
 
-listar_sintomas(Lista) :-
+
+:- set_prolog_flag(encoding, utf8).
+
+% Carga de datos persistentes
+:- consult('data/symptoms.pl').
+:- consult('data/failures.pl').
+:- consult('data/recommendations.pl').
+
+% Carga de conocimiento
+:- consult('knowledge/helpers.pl').
+:- consult('knowledge/rules.pl').
+
+
+% diagnosticar/6
+% Predicado principal. Dado una lista de IDs de síntomas
+% seleccionados por el usuario, busca la primera falla cuyas
+% reglas sean satisfechas y retorna toda la información.
+%
+% diagnosticar(+SintomasSeleccionados,
+%              -FallaID, -Nombre, -Tipo, -Descripcion,
+%              -Recomendaciones)
+%
+% Estrategia: busca reglas donde TODOS los síntomas requeridos
+% estén dentro de los seleccionados. Si hay varias reglas que
+% aplican para la misma falla, solo se reporta una vez (via
+% la prioridad de findall + primer match).
+
+diagnosticar(SintomasSeleccionados, FallaID, Nombre, Tipo, Descripcion, Recomendaciones) :-
+    diagnostico(FallaID, SintomasRequeridos),
+    subset(SintomasRequeridos, SintomasSeleccionados),
+    falla(FallaID, Nombre, Tipo, Descripcion),
+    obtener_recomendaciones(FallaID, Recomendaciones),
+    Recomendaciones \= [].  % Solo reportar fallas que tengan recomendaciones
+
+
+% diagnosticar_todos/2
+% Retorna TODAS las fallas diagnosticadas (sin duplicados)
+% a partir de la lista de síntomas seleccionados.
+%
+% diagnosticar_todos(+SintomasSeleccionados, -ListaDiagnosticos)
+%
+% Cada elemento de ListaDiagnosticos es un término:
+%   diagnostico(FallaID, Nombre, Tipo, Descripcion, Recomendaciones)
+
+diagnosticar_todos(SintomasSeleccionados, ListaDiagnosticos) :-
     findall(
-        sintoma(ID, Nombre),
-        sintoma_valido(ID, Nombre),
-        Lista
-    ).
+        diagnostico(FallaID, Nombre, Tipo, Descripcion, Recomendaciones),
+        diagnosticar(SintomasSeleccionados, FallaID, Nombre, Tipo, Descripcion, Recomendaciones),
+        ListaConDuplicados
+    ),
+    % Eliminar duplicados por FallaID
+    eliminar_duplicados_falla(ListaConDuplicados, ListaDiagnosticos).
 
 
+% eliminar_duplicados_falla/2
+% Elimina entradas duplicadas basándose en el FallaID.
+% Usa acumulador interno.
 
-% listar_fallas(-Lista)
-% Devuelve todas las fallas del catálogo como lista de términos:
-%   falla_info(ID, Nombre, Tipo, Descripcion)
+eliminar_duplicados_falla(Lista, SinDuplicados) :-
+    eliminar_duplicados_falla(Lista, [], SinDuplicados).
 
-listar_fallas(Lista) :-
-    findall(
-        falla_info(ID, Nombre, Tipo, Desc),
-        falla(ID, Nombre, Tipo, Desc),
-        Lista
-    ).
-
-
-
-%                                       VALIDACIÓN DE ENTRADA
-% Predicados de apoyo para que el backend rechace datos incorrectos.
-
-% validar_sintomas(+Lista, -Invalidos)
-% Dada una lista de IDs enviados por el usuario, devuelve los que NO
-% existen en el catálogo. Lista vacía = todos válidos.
-%
-% Ejemplo:
-%   validar_sintomas([s01, s99, s02], Invalidos)
-%   Invalidos = [s99]
-
-validar_sintomas(Lista, Invalidos) :-
-    filtrar_validos(Lista, _, Invalidos).
-
-
-
-% PREDICADO COMPLETO: diagnosticar_desde_lista/2
-%
-% Combina cargar_sintomas + diagnosticar en un solo predicado.
-% Permite que Python haga UNA SOLA consulta para todo el proceso.
-%
-%   diagnosticar_desde_lista(+ListaSintomas, -Resultado)
-%
-% Ejemplo desde pyswip:
-%   list(engine.diagnosticar_desde_lista([s01, s02], R))
-
-diagnosticar_desde_lista(ListaSintomas, Resultado) :-
-    % Validación: rechazar si la lista está vacía
-    lista_no_vacia(ListaSintomas),
-    % Cargar síntomas en la base dinámica
-    cargar_sintomas(ListaSintomas),
-    % Ejecutar diagnóstico
-    diagnosticar(Resultado).
-
-% Caso de lista vacía: devuelve resultado vacío con mensaje de error
-diagnosticar_desde_lista([], [error('No se proporcionaron síntomas')]) :-
-    !.
-
-
-
-% FORMATEO JSON
-%
-% Si Python ejecuta SWI-Prolog como subprocess y lee stdout,
-% este predicado imprime el resultado en formato JSON compatible.
-%
-% Uso desde línea de comandos:
-%   swipl -g "diagnosticar_json_stdout([s01,s02])" -t halt engine.pl
-
-
-
-% diagnosticar_json_stdout(+ListaSintomas)
-% Ejecuta el diagnóstico y escribe el resultado JSON en stdout.
-% Python captura esta salida con subprocess.
-
-diagnosticar_json_stdout(ListaSintomas) :-
-    diagnosticar_desde_lista(ListaSintomas, Resultado),
-    resultado_a_json(Resultado, JSON),
-    write(JSON), nl.
-
-% Caso de error
-diagnosticar_json_stdout([]) :-
-    write('{"error": "No se proporcionaron sintomas", "diagnosticos": []}'), nl.
-
-
-
-% resultado_a_json(+Resultado, -JSON)
-% Convierte la lista de diagnóstico a un átomo JSON válido.
-% No requiere librería externa: construye el string manualmente.
-
-resultado_a_json(Resultado, JSON) :-
-    maplist(diagnostico_a_json, Resultado, JSONDiags),
-    atomic_list_concat(JSONDiags, ',', DiagsConcatenados),
-    atomic_list_concat(['{"diagnosticos":[', DiagsConcatenados, ']}'], JSON).
-
-% Caso sin diagnósticos
-resultado_a_json([], '{"diagnosticos":[]}').
-
-
-% Convierte un término diagnóstico/6 a objeto JSON
-diagnostico_a_json(
-    diagnostico(ID, Nombre, Tipo, Desc, Rec, Sintomas),
-    JSON
+eliminar_duplicados_falla([], _, []).
+eliminar_duplicados_falla(
+    [diagnostico(FallaID, N, T, D, R)|Resto],
+    Vistos,
+    Resultado
 ) :-
-    term_to_atom(ID, IDAtom),
-    term_to_atom(Tipo, TipoAtom),
-    % Escapar comillas en strings (básico)
-    escape_json_string(Nombre, NombreEsc),
-    escape_json_string(Desc, DescEsc),
-    escape_json_string(Rec, RecEsc),
-    % Construir array de síntomas
-    maplist(term_to_atom, Sintomas, SintomaAtoms),
-    atomics_to_sintomas_json(SintomaAtoms, SintomasJSON),
-    % Ensamblar objeto JSON
-    atomic_list_concat([
-        '{"id":"', IDAtom, '",',
-        '"nombre":"', NombreEsc, '",',
-        '"tipo":"', TipoAtom, '",',
-        '"descripcion":"', DescEsc, '",',
-        '"recomendacion":"', RecEsc, '",',
-        '"sintomas_activados":', SintomasJSON,
-        '}'
-    ], JSON).
-
-% Maneja el caso de error en la lista
-diagnostico_a_json(error(Msg), JSON) :-
-    escape_json_string(Msg, MsgEsc),
-    atomic_list_concat(['{"error":"', MsgEsc, '"}'], JSON).
+    member(FallaID, Vistos), !,
+    eliminar_duplicados_falla(Resto, Vistos, Resultado).
+eliminar_duplicados_falla(
+    [diagnostico(FallaID, N, T, D, R)|Resto],
+    Vistos,
+    [diagnostico(FallaID, N, T, D, R)|Resultado]
+) :-
+    eliminar_duplicados_falla(Resto, [FallaID|Vistos], Resultado).
 
 
-% Convierte lista de átomos a array JSON: [s01,s02] → '["s01","s02"]'
-atomics_to_sintomas_json(Atoms, JSON) :-
-    maplist([A, S]>>(atomic_list_concat(['"', A, '"'], S)), Atoms, QuotedAtoms),
-    atomic_list_concat(QuotedAtoms, ',', Inner),
-    atomic_list_concat(['[', Inner, ']'], JSON).
+% CRUD: Agregar hechos dinámicamente
+% Estos predicados son llamados por el adapter cuando el
+% administrador agrega datos nuevos. Los assert/retract
+% operan en memoria; la persistencia la maneja Python
+% reescribiendo los archivos .pl correspondientes.
 
 
-% Escapa comillas dobles en strings para JSON válido
-escape_json_string(Input, Output) :-
-    atom_string(Input, Str),
-    split_string(Str, "\"", "", Parts),
-    atomic_list_concat(Parts, '\\"', Output).
+% agregar_sintoma(+ID, +Nombre, +Descripcion)
+agregar_sintoma(ID, Nombre, Descripcion) :-
+    \+ sintoma(ID, _, _),  % No duplicar
+    assertz(sintoma(ID, Nombre, Descripcion)).
+
+% eliminar_sintoma(+ID)
+eliminar_sintoma(ID) :-
+    retract(sintoma(ID, _, _)).
+
+% agregar_falla(+ID, +Nombre, +Tipo, +Descripcion)
+agregar_falla(ID, Nombre, Tipo, Descripcion) :-
+    \+ falla(ID, _, _, _),
+    assertz(falla(ID, Nombre, Tipo, Descripcion)).
+
+% eliminar_falla(+ID)
+eliminar_falla(ID) :-
+    retract(falla(ID, _, _, _)).
+
+% agregar_recomendacion(+ID, +FallaID, +Descripcion)
+agregar_recomendacion(ID, FallaID, Descripcion) :-
+    \+ recomendacion(ID, _, _),
+    assertz(recomendacion(ID, FallaID, Descripcion)).
+
+% eliminar_recomendacion(+ID)
+eliminar_recomendacion(ID) :-
+    retract(recomendacion(ID, _, _)).
+
+% agregar_regla(+FallaID, +ListaSintomas)
+agregar_regla(FallaID, ListaSintomas) :-
+    \+ diagnostico(FallaID, ListaSintomas),
+    assertz(diagnostico(FallaID, ListaSintomas)).
+
+% eliminar_regla(+FallaID, +ListaSintomas)
+eliminar_regla(FallaID, ListaSintomas) :-
+    retract(diagnostico(FallaID, ListaSintomas)).
 
 
+% Predicados de consulta para el CRUD (listas completas)
 
-% INICIALIZACIÓN DEL MOTOR
-% Se ejecuta automáticamente al cargar engine.pl.
-% Limpia cualquier estado residual de sesiones anteriores.
 
-:- initialization(limpiar_sintomas, now).
+% todos_sintomas(-Lista) — lista de sintoma(ID, Nombre, Desc)
+todos_sintomas(Lista) :- listar_sintomas(Lista).
+
+% todas_fallas(-Lista) — lista de falla(ID, Nombre, Tipo, Desc)
+todas_fallas(Lista) :- listar_fallas(Lista).
+
+% todas_recomendaciones(-Lista)
+todas_recomendaciones(Lista) :- listar_recomendaciones(Lista).
+
+% todas_reglas(-Lista) — lista de regla(FallaID, Sintomas)
+todas_reglas(Lista) :-
+    findall(regla(FallaID, Sintomas), diagnostico(FallaID, Sintomas), Lista).
