@@ -1,21 +1,18 @@
 from dotenv import load_dotenv
 
-from sqlalchemy import create_engine
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 import os
 
 
 load_dotenv()
 
-
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_NAME = os.getenv("DB_NAME")
-
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
-
 
 DATABASE_URL = (
     f"postgresql://"
@@ -24,38 +21,39 @@ DATABASE_URL = (
     f"/{DB_NAME}"
 )
 
-
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True
 )
+
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+Base = declarative_base()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 def verificar_conexion():
     """
     Verifica si PostgreSQL responde correctamente.
     """
-
     try:
-
         with engine.connect() as connection:
-
-            connection.execute(
-                text("SELECT 1")
-            )
-
-            print(
-                "[DATABASE] Conexión correcta con PostgreSQL."
-            )
-
+            connection.execute(text("SELECT 1"))
+            print("[DATABASE] Conexión correcta con PostgreSQL.")
             return True
 
     except Exception as e:
-
-        print(
-            "[DATABASE] Error de conexión a PostgreSQL:"
-        )
-
+        print("[DATABASE] Error de conexión a PostgreSQL:")
         print(e)
-
         return False
