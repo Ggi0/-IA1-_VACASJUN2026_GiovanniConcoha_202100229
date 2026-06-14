@@ -1,11 +1,17 @@
 from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
+from app.config.db import verificar_conexion
 
 
 app = FastAPI(
     title="Practica 2 - Backend, smartbot",
 )
+
+@app.on_event("startup")
+async def startup():
+
+    verificar_conexion()
 
 # Configuración de CORS
 app.add_middleware(
