@@ -1,0 +1,28 @@
+services:
+
+  db-bot:
+
+    image: postgres:17
+
+    container_name: db-bot
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: smartbot
+      POSTGRES_USER: smartbot_user
+      POSTGRES_PASSWORD: smartbot_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+
+      - postgres_data:/var/lib/postgresql/data
+
+      - ./db/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+
+      - ./db/02_seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+
+volumes:
+  postgres_data:
