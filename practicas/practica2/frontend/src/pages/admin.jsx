@@ -91,15 +91,18 @@ const styles = {
 export default function AdminPage() {
   const navigate = useNavigate();
   const user = useMemo(() => getSessionUser(), []);
-  const [activeTab, setActiveTab] = useState<"preguntas" | "chats">("preguntas");
+const [activeTab, setActiveTab] = useState("preguntas");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
   const [preguntas, setPreguntas] = useState([]);
   const [chats, setChats] = useState([]);
 
-  const [preguntaEditId, setPreguntaEditId] = useState<number | null>(null);
-  const [chatEditId, setChatEditId] = useState<number | null>(null);
+const [preguntaEditId, setPreguntaEditId] = useState(null);
+const [chatEditId, setChatEditId] = useState(null);
+
+
+  
 
   const [preguntaForm, setPreguntaForm] = useState({
     pregunta: "",
