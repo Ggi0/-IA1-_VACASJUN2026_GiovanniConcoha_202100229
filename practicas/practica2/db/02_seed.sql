@@ -8,9 +8,9 @@ INSERT INTO usuarios
 )
 VALUES
 (
-    'Administrador Principal',
-    'IA1-User',
-    'admin@smartbot.com',
+    'Administrador',
+    'IA1-User2',
+    'admin2@smartbot.com',
     '$2b$12$3e9kkitd0aU2SNsAT2ev6ehMalfsO0Z2z5uRuoV7vzc5ERDbVxu4m',
     'admin'
 );
