@@ -36,6 +36,11 @@ def test_connection():
     try:
         with engine.connect() as connection:
             result = connection.execute(text("SELECT 1"))
-            return "[BASE DATOS] Conexión a PostgreSQL exitosa"
+            mensaje = "\n[BASE DATOS] Conexión a PostgreSQL exitosa\n"
+            print(mensaje)   # imprime en consola
+            return mensaje
     except Exception as e:
-        return f"[BASE DATOS] Error de conexión: {e}"
+        mensaje = f"[BASE DATOS] Error de conexión: {e}"
+        print(mensaje)      # imprime en consola
+        return mensaje
+

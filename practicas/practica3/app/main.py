@@ -7,6 +7,13 @@ app = FastAPI(
     title="Proyecto 3 - SmartInvoice",
 )
 
+
+@app.on_event("startup")
+async def startup():
+
+    test_connection()
+
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
