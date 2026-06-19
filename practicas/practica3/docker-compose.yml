@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    container_name: smart_invoice_db
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./app/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - smart_network
+
+volumes:
+  postgres_data:
+
+networks:
+  smart_network:
