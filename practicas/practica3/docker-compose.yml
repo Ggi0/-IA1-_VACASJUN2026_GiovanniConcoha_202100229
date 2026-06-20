@@ -1,20 +1,71 @@
+
+
 services:
+
   db:
     build:
       context: ./db
-      dockerfile: Dockerfile
     container_name: smart_invoice_db
     ports:
       - "5432:5432"
-    env_file:
-      - ./app/.env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: smart_invoice
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - smart_network
 
+  backend:
+    build:
+      context: ./app
+    container_name: smart_invoice_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/smart_invoice
+      POSTGRES_HOST: db
+
+      # OCR
+      OCR_ENGINE: auto
+      PDF_DPI: 200
+
+      # Uploads
+      UPLOAD_DIR: /app/uploads
+
+      # RPA
+      FRONTEND_URL: http://frontend:5173
+      RPA_SECRET_TOKEN: smartinvoice-rpa-secret-2024
+      CHROMEDRIVER_PATH: /usr/bin/chromedriver
+
+    volumes:
+      - ./app:/app
+      - uploads_data:/app/uploads
+
+    networks:
+      - smart_network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: smart_invoice_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      VITE_API_BASE_URL: http://backend:8000
+    volumes:
+      - ./frontend:/app
+    networks:
+      - smart_network
+
 volumes:
   postgres_data:
+  uploads_data:
 
 networks:
   smart_network:
