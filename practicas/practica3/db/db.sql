@@ -110,5 +110,5 @@ CREATE INDEX idx_logs_invoice ON process_logs(invoice_id);
 
 INSERT INTO users (username, email, password, role)
 VALUES 
-('admin', 'admin@test.com', 'hashed_password', 'ADMIN'),
-('empleado1', 'emp1@test.com', 'hashed_password', 'EMPLOYEE');
+('admin', 'admin@gmail.com', '$2b$12$BVWrvou.i1zZqvrqEZ4Sr.XTHuXHQnKFjFAixsRLlt.5qWaTB.Cjm', 'ADMIN'),
+('empleado1', 'empl@gamil.com', '$2b$12$BVWrvou.i1zZqvrqEZ4Sr.XTHuXHQnKFjFAixsRLlt.5qWaTB.Cjm', 'EMPLOYEE');

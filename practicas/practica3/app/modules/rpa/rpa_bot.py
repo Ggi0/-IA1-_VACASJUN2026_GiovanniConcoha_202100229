@@ -187,6 +187,15 @@ class RPABot:
             logger.info(f"RPABot: Navegando a {form_url}")
             self.driver.get(form_url)
 
+
+            WebDriverWait(self.driver, 20).until(
+                lambda d: d.execute_script("return document.readyState") == "complete"
+            )
+
+            WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.ID, "field-invoice_number"))
+            )
+
             # Paso 2: Esperar a que el formulario esté visible
             self._wait_for_element(SUBMIT_BTN_ID)
             logger.info("RPABot: Formulario cargado.")

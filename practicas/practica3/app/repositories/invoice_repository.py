@@ -25,7 +25,7 @@ class InvoiceRepository:
         db.refresh(invoice)
         return invoice
 
-    # ✅ CREAR CON VALIDACIÓN DE DUPLICADO
+    # CREAR CON VALIDACIÓN DE DUPLICADO
     def create_with_duplicate_check(self, db: Session, data: dict):
         duplicate = self.find_duplicate(
             db,

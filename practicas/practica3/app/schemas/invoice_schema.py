@@ -1,38 +1,55 @@
 """
-invoice_schema.py — schemas relacionados con el flujo RPA
-==========================================================
-Agrega RPASubmitPayload a tu invoice_schema.py existente.
+invoice_schema.py
+=================
+Schemas Pydantic para validar los bodies de los endpoints de facturas.
+FastAPI los usa automáticamente para validar la request antes de
+llamar al controller.
 """
 
 from typing import Optional
 from pydantic import BaseModel
 
 
-class RPASubmitPayload(BaseModel):
-    """
-    Payload que el formulario React envía al endpoint POST /invoices/rpa-submit.
-    El bot Selenium llena estos campos y hace submit.
-
-    Todos los campos son Optional porque:
-    - El bot puede fallar llenando alguno
-    - El backend valida primero el token, luego los datos
-    """
-    # Token de seguridad interna (no JWT)
-    rpa_token: str
-
-    # Campos de la factura
+# ─────────────────────────────────────────────────────────────────
+# POST /invoices/validate
+# Datos corregidos manualmente por el empleado en el form editable.
+# ─────────────────────────────────────────────────────────────────
+class ValidatePayload(BaseModel):
     invoice_number: Optional[str] = None
     date:           Optional[str] = None
     provider:       Optional[str] = None
     nit:            Optional[str] = None
-    subtotal:       Optional[str] = None   # Llega como string desde el form
+    subtotal:       Optional[float] = None
+    taxes:          Optional[float] = None
+    total:          Optional[float] = None
+
+
+# ─────────────────────────────────────────────────────────────────
+# POST /invoices/trigger-rpa
+# Los datos validados + la ruta del archivo guardado.
+# ─────────────────────────────────────────────────────────────────
+class TriggerRPAPayload(BaseModel):
+    invoice_data: dict   # Los campos de la factura (validados)
+    file_path:    str    # Ruta en disco: "/app/uploads/abc123.pdf"
+
+
+# ─────────────────────────────────────────────────────────────────
+# POST /invoices/rpa-submit
+# Enviado por el formulario React que el bot Selenium llenó.
+# Todos los valores numéricos llegan como string porque vienen de inputs HTML.
+# ─────────────────────────────────────────────────────────────────
+class RPASubmitPayload(BaseModel):
+    rpa_token:      str                  # Token secreto interno
+
+    invoice_number: Optional[str] = None
+    date:           Optional[str] = None
+    provider:       Optional[str] = None
+    nit:            Optional[str] = None
+    subtotal:       Optional[str] = None  # String desde el input HTML
     taxes:          Optional[str] = None
     total:          Optional[str] = None
-
-    # Campos ocultos del form
-    file_path: Optional[str] = None
-    user_id:   Optional[str] = None        # Llega como string desde el form
+    file_path:      Optional[str] = None
+    user_id:        Optional[str] = None  # String desde el input hidden
 
     class Config:
-        # Permite campos extra (por si el form envía algo adicional)
-        extra = "ignore"
+        extra = "ignore"                  # Ignorar campos extras del form

@@ -184,11 +184,12 @@ class RPAService:
         from app.repositories.provider_repository import ProviderRepository
 
         try:
-            provider_repo = ProviderRepository(db)
-            invoice_repo = InvoiceRepository(db)
+            provider_repo = ProviderRepository()
+            invoice_repo = InvoiceRepository()
 
             # Buscar o crear proveedor por NIT
-            provider = await provider_repo.get_or_create_by_nit(
+            provider = provider_repo.get_or_create_by_nit(
+                db,
                 nit=invoice_data.get("nit", "CF"),
                 name=invoice_data.get("provider", "Desconocido"),
             )
@@ -196,18 +197,23 @@ class RPAService:
             # Determinar status según resultado del RPA
             status = "PROCESSED" if rpa_result.success else "ERROR"
 
-            invoice_id = await invoice_repo.create(
-                user_id=user_id,
-                provider_id=provider.id,
-                invoice_number=invoice_data.get("invoice_number"),
-                date=invoice_data.get("date"),
-                nit=invoice_data.get("nit"),
-                subtotal=float(invoice_data.get("subtotal") or 0),
-                taxes=float(invoice_data.get("taxes") or 0),
-                total=float(invoice_data.get("total") or 0),
-                file_path=file_path,
-                status=status,
+            invoice = invoice_repo.create(
+                db,
+                {
+                    "user_id": user_id,
+                    "provider_id": provider.id,
+                    "invoice_number": invoice_data.get("invoice_number"),
+                    "date": invoice_data.get("date"),
+                    "nit": invoice_data.get("nit"),
+                    "subtotal": float(invoice_data.get("subtotal") or 0),
+                    "taxes": float(invoice_data.get("taxes") or 0),
+                    "total": float(invoice_data.get("total") or 0),
+                    "file_path": file_path,
+                    "status": status,
+                }
             )
+
+            invoice_id = invoice.id
 
             logger.info(f"RPAService: Factura guardada en DB con ID={invoice_id}, status={status}")
             return invoice_id
@@ -240,8 +246,9 @@ class RPAService:
         from app.repositories.log_repository import LogRepository
 
         try:
-            log_repo = LogRepository(db)
-            await log_repo.create(
+            log_repo = LogRepository()
+            log_repo.create_log(
+                db,
                 invoice_id=invoice_id,
                 user_id=user_id,
                 status="PROCESSED" if rpa_result.success else "ERROR",
