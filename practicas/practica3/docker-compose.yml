@@ -35,7 +35,7 @@ services:
       PDF_DPI: 200
 
       # Uploads
-      UPLOAD_DIR: /app/uploads
+      UPLOAD_DIR: /project/app/uploads
 
       # RPA
       FRONTEND_URL: http://frontend:5173
@@ -43,8 +43,8 @@ services:
       CHROMEDRIVER_PATH: /usr/bin/chromedriver
 
     volumes:
-      - ./app:/app
-      - uploads_data:/app/uploads
+      - .:/project
+      - uploads_data:/project/app/uploads
 
     networks:
       - smart_network
