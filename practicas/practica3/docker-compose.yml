@@ -19,7 +19,8 @@ services:
 
   backend:
     build:
-      context: ./app
+      context: .
+      dockerfile: app/Dockerfile
     container_name: smart_invoice_backend
     ports:
       - "8000:8000"
