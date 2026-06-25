@@ -1,6 +1,4 @@
-A continuación se presenta el **Manual de Usuario en formato Markdown (.md)** redactado de manera formal, continua y estructurada en párrafos, incorporando la descripción conceptual de las “imágenes” o vistas de la interfaz según el diseño y el código proporcionado.
 
-***
 
 # RoboMaze — Manual de Usuario
 
